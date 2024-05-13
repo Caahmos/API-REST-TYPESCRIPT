@@ -7,7 +7,7 @@ class AuthUserService {
     async execute({ email, password }: AuthRequest) {
 
         if (!email) throw new Error('O email precisa ser enviado');
-        if (!password) throw new Error('A senha precisa ser enviado');
+        if (!password) throw new Error('A senha precisa ser enviada');
 
         const user = await prismaClient.user.findFirst({
             where: {

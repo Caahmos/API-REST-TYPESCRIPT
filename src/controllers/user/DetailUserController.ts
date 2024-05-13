@@ -1,7 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import DetailUserService from "../../services/user/DetailUserService";
 
-class FindUserController{
+class DetailUserController{
     async handle(req: Request, res: Response, next: NextFunction){
         const user_id = req.user_id;
 
@@ -12,4 +12,4 @@ class FindUserController{
     }
 }
 
-export default FindUserController;
+export default DetailUserController;
