@@ -8,8 +8,12 @@ import CreateCategoryController from '../controllers/category/CreateCategoryCont
 import UpdateCategoryController from '../controllers/category/UpdateCategoryController';
 import FindCategoryController from '../controllers/category/FindCategoryController';
 import DeleteCategoryController from '../controllers/category/DeleteCategoryController';
+import CreateProductController from '../controllers/product/CreateProductController';
+import multer from 'multer';
+import uploadConfig from '../config/multer';
 
 const router = Router();
+const update = multer(uploadConfig.upload('./tmp'));
 
 router.get('/teste', (req: Request, res: Response) => {
     return res.json({ message: 'Deu certo!' });
@@ -25,5 +29,6 @@ router.patch('/category/update/:id', isAuthenticated, new UpdateCategoryControll
 router.get('/category/findall', isAuthenticated, new FindCategoryController().handle);
 router.delete('/category/delete/:id', isAuthenticated, new DeleteCategoryController().handle);
 
+router.post('/product/create', isAuthenticated, update.single('file'), new CreateProductController().handle);
 
 export default router;

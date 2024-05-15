@@ -3,7 +3,7 @@ import DeleteCategoryRequest from "../../models/interfaces/category/DeleteCatego
 
 export default class DeleteCategoryService {
     async execute({ id }: DeleteCategoryRequest) {
-        if (!id) throw new Error('Id Inválido');
+        if (!id) throw new Error('Id não encontrado!');
 
         const deletedCategory = await prismaClient.category.delete({
             where: {
