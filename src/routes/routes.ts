@@ -9,6 +9,8 @@ import UpdateCategoryController from '../controllers/category/UpdateCategoryCont
 import FindCategoryController from '../controllers/category/FindCategoryController';
 import DeleteCategoryController from '../controllers/category/DeleteCategoryController';
 import CreateProductController from '../controllers/product/CreateProductController';
+import UpdateProductController from '../controllers/product/UpdateProductController';
+import ListProductsByCategoryController from '../controllers/product/ListProductByCategoryController';
 import multer from 'multer';
 import uploadConfig from '../config/multer';
 
@@ -25,10 +27,12 @@ router.get('/finduser', isAuthenticated, new DetailUserController().handle);
 router.delete('/deleteuser', isAuthenticated, new DeleteUserController().handle);
 
 router.post('/category/create', isAuthenticated, new CreateCategoryController().handle);
-router.patch('/category/update/:id', isAuthenticated, new UpdateCategoryController().handle);
 router.get('/category/findall', isAuthenticated, new FindCategoryController().handle);
+router.patch('/category/update/:id', isAuthenticated, new UpdateCategoryController().handle);
 router.delete('/category/delete/:id', isAuthenticated, new DeleteCategoryController().handle);
 
 router.post('/product/create', isAuthenticated, update.single('file'), new CreateProductController().handle);
+router.get('/product/listbycategory/:category_id', isAuthenticated, new ListProductsByCategoryController().handle);
+router.patch('/product/update/:id', isAuthenticated, update.single('file'), new UpdateProductController().handle);
 
 export default router;

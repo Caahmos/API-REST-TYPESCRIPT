@@ -8,7 +8,7 @@ export default class CreateProductController {
         const createProductService = new CreateProductService();
 
         if (!req.file){
-            throw new Error('Error sendind image!')
+            throw new Error('Error sending image!')
         }else{
             const { originalname, filename: banner } = req.file;
             const product = await createProductService.execute({ name, price, description, banner, category_id, amount });
