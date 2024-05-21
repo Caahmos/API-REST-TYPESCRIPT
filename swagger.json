@@ -1,3 +1,523 @@
 {
-
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api Controle de Estoque",
+        "description": "Esta API tem como objetivo facilitar o controle de estoque da sua empresa",
+        "termsofService": "http://localhost:5000/terms",
+        "contact": {
+            "email": "myemail@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/v1/createuser": {
+            "post": {
+                "description": "Criar um usuário",
+                "requestBody": {
+                    "description": "Os dados necessário para a criação de um usuário",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestCreateUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuário criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseCreateUser"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/session": {
+            "post": {
+                "description": "Logar e autenticar o usuário no sistema",
+                "requestBody": {
+                    "description": "Dados necessários para o login e autenticação do usuário",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestAuthUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Autenticação realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseAuthUser"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/finduser": {
+            "get": {
+                "description": "Busca pelo usuário pelo token",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do usuário encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseCreateUser"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    }
+                }
+            }
+        },
+        "/v1/deleteuser": {
+            "delete": {
+                "description": "Deletar um usuário pelo token",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/ResponseDeleteUser"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/category/create": {
+            "post": {
+                "description": "Criar uma categoria",
+                "requestBody": {
+                    "description": "Os dados necessário para a criação de uma categoria",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestCreateCategory"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/ResponseCreateCategory"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/category/update/{id}": {
+            "patch": {
+                "description": "Atualizar uma categoria",
+                "requestBody": {
+                    "description": "Os dados necessário para a atualização de uma categoria",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestUpdateCategory"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID da categoria a ser atualizada",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/ResponseUpdateCategory"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/category/findall": {
+            "get": {
+                "description": "Busca por todas as categorias",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Todas as categorias encontradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseFindAllCategories"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Categorias não encontradas"
+                    }
+                }
+            }
+        },
+        "/v1/category/delete/{id}": {
+            "delete": {
+                "description": "Deletar uma categoria por id",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Id da categoria a ser deletada"
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/ResponseDeleteCategory"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/product/create": {
+            "post": {
+                "description": "Criar um produto",
+                "requestBody": {
+                    "description": "Os dados necessário para a criação de um produto",
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestCreateProduct"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/ResponseCreateProduct"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RequestCreateUser": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ResponseCreateUser": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RequestAuthUser": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ResponseAuthUser": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "token": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ResponseDeleteUser": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RequestCreateCategory": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ResponseCreateCategory": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "object"
+                    }
+                }
+            },
+            "RequestUpdateCategory": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ResponseUpdateCategory": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "updatedCategory": {
+                        "type": "object"
+                    }
+                }
+            },
+            "ResponseFindAllCategories": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "object"
+                    }
+                }
+            },
+            "ResponseDeleteCategory": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "deletedCategory": {
+                        "type": "object"
+                    }
+                }
+            },
+            "RequestCreateProduct": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "file": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "number"
+                    },
+                    "category_id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ResponseCreateProduct": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "product": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "description": "Autenticação utilizando o JWT",
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    }
 }

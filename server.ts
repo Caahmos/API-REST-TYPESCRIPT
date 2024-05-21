@@ -13,7 +13,7 @@ app.use('/files', express.static(path.resolve(__dirname, 'tmp')));
 app.use(express.urlencoded({extended: true}));
 app.use(cors({ credentials: true, origin: '3000'}));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use(router);
+app.use('/v1', router);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     if(err instanceof Error) return res.status(400).json({error: err.message});
