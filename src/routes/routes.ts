@@ -13,6 +13,7 @@ import UpdateProductController from '../controllers/product/UpdateProductControl
 import ListProductsByCategoryController from '../controllers/product/ListProductByCategoryController';
 import FindAllProductsController from '../controllers/product/FindAllProductsController';
 import DeleteProductController from '../controllers/product/DeleteProductController';
+import SaleProductController from '../controllers/sale/SaleProductController';
 import multer from 'multer';
 import uploadConfig from '../config/multer';
 
@@ -38,5 +39,6 @@ router.get('/product/listbycategory/:category_id', isAuthenticated, new ListProd
 router.get('/product/findall', isAuthenticated, new FindAllProductsController().handle);
 router.patch('/product/update/:id', isAuthenticated, update.single('file'), new UpdateProductController().handle);
 router.delete('/product/delete/:id', isAuthenticated, new DeleteProductController().handle);
+router.patch('/product/sale/:product_id', isAuthenticated, new SaleProductController().handle);
 
 export default router;
