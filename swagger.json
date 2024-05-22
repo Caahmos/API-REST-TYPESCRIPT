@@ -343,6 +343,237 @@
                     }
                 }
             }
+        },
+        "/v1/product/update/{id}": {
+            "patch": {
+                "description": "Atualizar um produto",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Os dados necessários para a atualização de um produto",
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestUpdateProduct"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID do produto a ser atualizado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/ResponseDeleteUser"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/product/listbycategory/{category_id}": {
+            "get": {
+                "description": "Buscar um produto por category_id",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Os dados necessário para a atualização de um produto",
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestUpdateProduct"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "category_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID da categoria do produto a ser exibido",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/ResponseCreateProduct"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/product/findall": {
+            "get": {
+                "description": "Busca por todos os produtos",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Todos os produtos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseSaleProduct"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produtos não encontradas"
+                    }
+                }
+            }
+        },
+        "/v1/product/delete/{id}": {
+            "delete": {
+                "description": "Deletar um produto por id",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Id do produto a ser deletado"
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/ResponseDeleteProduct"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/product/sale/{product_id}": {
+            "patch": {
+                "description": "Vender uma quantidade de um produto",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Os dados necessários para a venda de um produto",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestSaleProduct"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID do produto a ser atualizado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token de autenticação do usuário"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/ResponseSaleProduct"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -487,7 +718,8 @@
                         "type": "string"
                     },
                     "file": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "binary"
                     },
                     "category": {
                         "type": "string"
@@ -508,6 +740,66 @@
                     },
                     "product": {
                         "type": "object"
+                    }
+                }
+            },
+            "RequestEditProduct": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "file": {
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "number"
+                    },
+                    "category_id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RequestSaleProduct": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "type": "number"
+                    }
+                }
+            },
+            "ResponseSaleProduct": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "number"
+                    }
+                }
+            },
+            "ResponseDeleteProduct": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "deletedProduct": {
+                        "type": "string"
                     }
                 }
             }
